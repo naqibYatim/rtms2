@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use App\LeaveDay;
-use App\Leave;
+use App\Leave; 
 use App\Body;
 use App\Neck;
 use App\Sleeve;
@@ -28,7 +28,7 @@ use DB;
 
 class AdminController extends Controller
 {
-    //
+    // admin
     
     public function __construct()
     {
