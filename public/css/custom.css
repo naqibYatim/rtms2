@@ -1,0 +1,72 @@
+/* your styles go here */
+.card-header {
+  padding: 1rem 1.25rem;
+  background-color: #25905e;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.card-profile {
+    margin-top: 10%;
+    margin-bottom: 30px;
+    width: 70%;
+    -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border: 0 solid #eee;
+    border-radius: 0;
+  }
+
+.card-leave {
+    margin-top: 5%;
+    width: 70%;
+    -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border: 0 solid #eee;
+    border-radius: 0;
+}
+
+.form-label {
+    background-color: #33b35a;
+    color: black;
+}
+/*job order form */
+.card-header.order-form {
+  background-color: black;
+  color: #eee;
+}
+.container-scroll {
+  width: 100%;
+  padding-right: 20px;
+  padding-left: 20px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.scroll_page {
+overflow-x: auto;
+overflow-y: auto ;
+white-space: nowrap;
+
+}
+
+.scroll_page .scroll_page--box {
+display: inline-block;
+width:100vw;
+float: none;
+/* border: 1px solid red; */
+}
+
+.table-bordered {
+  border: 1px solid #000000;
+}
+.text-big-red{
+  position: relative;
+  margin-top: 100px;
+  margin-left:30px;
+  text-align: center;
+  color:red;
+
+}

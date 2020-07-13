@@ -1,0 +1,21 @@
+Route::post('admin/order_setting','Admin\OrderController@updateOrderSetting')->middleware('admin')->name('order_setting');
+//page order_list
+Route::get('admin/order_list', 'Admin\AdminController@orderList')->middleware('admin');
+//page pricing
+Route::get('admin/pricing', 'Admin\AdminController@pricing')->middleware('admin');
+
+    public function leave() 
+    {
+        $staff = Auth::user();
+        $id = $staff->u_id;
+        $days = DB::table('leave_day')->where('u_id', '=', $id)->first();
+        
+        $leave = DB::table('leave')->where('u_id', '=', $id)->get();
+        
+        return view('department/leave', compact('staff','days','leave'));
+    }
+    
+    public function leaveApplication(Request $request)
+    {
+        $data = $request->all();
+    }
