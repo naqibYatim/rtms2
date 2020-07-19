@@ -209,7 +209,7 @@ class AdminController extends Controller
     }
     
     public function filterOrder(Request $request) 
-    {
+    { 
         $data = $request->all();
        
         $m = $data['month'];
@@ -232,6 +232,116 @@ class AdminController extends Controller
         $date = Order::all();
         
         return view('admin/admin_orderlist',compact('order','m','y','years','date'));
+    }
+
+    // function to search order by keyword
+    function searchOrder(Request $request)
+    {
+        if($request->ajax())
+        {
+            $output = '';
+            $query = $request->get('query');
+            if($query != '')
+            {
+                $data = DB::table('orders')
+                    ->Join('user', 'orders.u_id_customer', '=', 'user.u_id')
+                    ->where('orders.o_status','!=','9')
+                    ->where('orders.active','=','1')
+                    ->where('orders.ref_num', 'like', '%'.$query.'%')
+                    ->orWhere('user.u_fullname', 'like', '%'.$query.'%')
+                    ->orWhere('orders.file_name', 'like', '%'.$query.'%')
+                    ->orWhere('orders.quantity_total', 'like', '%'.$query.'%')
+                    ->orderBy('orders.delivery_date', 'asc')
+                    ->get();
+                    
+            }
+            else
+            {
+                $data = DB::table('orders')
+                    ->Join('user', 'orders.u_id_customer', '=', 'user.u_id')
+                    ->where('orders.o_status','<>','9')
+                    ->where('orders.active','=','1')
+                    ->orderBy('orders.delivery_date', 'asc')
+                    ->get();
+
+            }
+            $total_row = $data->count();
+            $date = Order::all();
+            if($total_row > 0)
+            {
+                
+                $no = 1;
+                foreach($data as $row)
+                {
+                    // status of order
+                    $status = $row->o_status;
+                    $activestat = $row->active;
+                    if($status != 9 && $activestat == 1){
+                        $statdesc = '';
+                        if($status == 1){
+                            $statdesc = 'Waiting for design';
+                        }else if($status == 2){
+                            $statdesc = 'Order Confirm';
+                        }else if($status == 3){
+                            $statdesc = 'Design Confirm';
+                        }else if($status == 4){
+                            $statdesc = 'Printing';
+                        }else if($status == 5){
+                            $statdesc = 'Waiting for Tailor';
+                        }else if($status == 6){
+                            $statdesc = 'Sewing';
+                        }else if($status == 7){
+                            $statdesc = 'Deliver';
+                        }else if($status == 8){
+                            $statdesc = 'Reprint';
+                        }else if($status == 9){
+                            $statdesc = 'Completed';
+                        }else if($status == 10){
+                            $statdesc = 'Customer Request Design';
+                        }else if($status == 0){
+                            $statdesc = 'Draft';
+                        }
+                        $orderid = $row->o_id;
+
+                        // action column
+                        $action = '<a href="'.route('admin.updateorder',$orderid).'"><button ><i class="fa fa-edit"></i></button></a>'.
+                                '<form class="formbutton" action="'.route('admin.deleteorder').'" method="POST">'. csrf_field() .'
+                                    <button  type="submit" onclick="return confirm(\'Are you sure to delete this order?\')" ><i class="fa fa-trash"></i></button>
+                                    <input type="hidden" name="o_id" value=" '.$orderid.'">                                 
+                                </form>'.
+                                '<a href="'.route('general.joborder',$orderid).'"><button >Job Order</button></a>';
+
+                        $output .= '
+                        <tr>
+                        <td>'.$no.'</td>
+                        <td>'.$row->ref_num.'</td>
+                        <td>'.date('d/m/Y', strtotime($date->where('o_id',$row->o_id)->pluck('created_at')->first())).'</td>
+                        <td>'.$row->u_fullname.'</td>
+                        <td>'.$row->file_name.'</td>
+                        <td>'.$row->quantity_total.'</td>
+                        <td>'.date('d/m/Y', strtotime($row->delivery_date)).'</td>
+                        <td>'.$statdesc.'</td>
+                        <td>'.$action.'</td>
+                        </tr>
+                        ';
+                        $no ++;
+                    }
+                }
+            }
+            else
+            {
+                $output = '
+                <tr>
+                    <td align="center" colspan="10">No Data Found</td>
+                </tr>
+                ';
+            }
+            $data = array(
+                'table_data'  => $output
+            );
+            // send data to ajax request
+            echo json_encode($data);
+        }
     }
     
     public function orderHistory() 

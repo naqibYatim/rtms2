@@ -67,6 +67,8 @@ Route::get('admin/order_list', 'Admin\AdminController@orderList')->name('admin.o
 Route::post('admin/order_list', 'Admin\OrderController@deleteOrder')->name('admin.deleteorder')->middleware('admin');
 Route::post('admin/order_list/filter', 'Admin\AdminController@filterOrder')->name('admin.filterorder')->middleware('admin');
 Route::get('admin/order_list/filter', 'Admin\AdminController@orderList')->middleware('admin');
+Route::get('admin/order_list/search', 'Admin\AdminController@searchOrder')->name('admin.searchOrder')->middleware('admin');
+
 //page order history
 Route::get('admin/order_history', 'Admin\AdminController@orderHistory')->name('admin.orderhistory')->middleware('admin');
 Route::post('admin/order_history', 'Admin\AdminController@filterHistory')->name('admin.filterhistory')->middleware('admin');
@@ -199,6 +201,10 @@ Route::post('customer/viewinvoice','Customer\CustomerController@viewInvoice')->n
 //Route::post('customer/neworder1', 'Department\PriceCheckingController@BaseOnBodyId')->middleware('customer');
 //Route::post('customer/orderlist', 'Customer\CustomerController@requestConfirm')->name('customer.orderlist');
 Route::get('customer/addorder', 'Customer\OrderController@OrderForm')->name('addorder')->middleware('customer');
+
+
+// customer payment gateway page
+Route::post('customer/viewinvoice','Customer\BillplzController@payOrder')->name('customer.payorder')->middleware('customer');
 
 /////////////////////////////////////////////////////////////////REGISTRATION PAGE///////////////////////////////////////////////////
 //register agent (by link)

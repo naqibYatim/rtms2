@@ -42,7 +42,9 @@
                             </select>                       
                             <button class="btn-sm" type="submit" >Filter</button>
                             </form>
-                            <a href="{{ route('admin.orderlist') }}"><button class="btn-sm" >Reset</button></a><br>
+                            <a href="{{ route('admin.orderlist') }}"><button class="btn-sm" >Reset</button></a>
+                            <input type="text" name="search" id="search" style="float: right" placeholder=" Search order list data" />
+                            <br>
                         </div>
                     </div><br>
                     
@@ -115,7 +117,8 @@
                                         <input type="hidden" name="o_id" value=" {{$ord->o_id}}">                                 
                                     </form>
                                     
-                                    <a href="{{route('general.joborder',$ord->o_id)}}"><button >Job Order</button></a></td>
+                                    <a href="{{route('general.joborder',$ord->o_id)}}"><button >Job Order</button></a>
+                                </td>
                               </tr>
                               @php $no ++; @endphp
                               @endforeach
@@ -131,11 +134,34 @@
     </div>
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function () {
 
     $("#bulan").val( '{{$m}}' );
     $("#tahun").val( '{{$y}}' );
+
+    fetch_customer_data();
+
+    // function to return data if search input has value in it
+    function fetch_customer_data(query = '')
+    {
+        $.ajax({
+            url:"{{ route('admin.searchOrder') }}",
+            method:'GET',
+            data:{query:query},
+            dataType:'json',
+            success:function(data)
+        {
+            $('tbody').html(data.table_data);
+        }
+        })
+    }
+
+    $(document).on('keyup', '#search', function(){
+        var query = $(this).val();
+        fetch_customer_data(query);
+    });
 
 });    
 </script>
