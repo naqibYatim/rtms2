@@ -25,6 +25,7 @@
                                 <th scope="col">Total Price</th>
                                 <th scope="col">Created Date</th>
                                 <th scope="col">View</th>
+                                <th scope="col">Action</th>
                               </tr>
                             </thead>
                             <tbody>                                
@@ -37,6 +38,17 @@
                                 <td>{{$inv->total_price}}</td>
                                 <td>{{date('d/m/Y', strtotime($inv->created_at))}}</td>
                                 <td><a href="{{route('general.invoice',$inv->o_id)}}"><button class="btn btn-primary">View</button></a></td>
+                                {!! Form::open(array( 'route'=>'customer.payorder', 'method' => 'POST')) !!}
+                                  <input type="hidden" name="price" id="price" value="{{$inv->total_price}}">
+                                  <input type="hidden" name="oid" id="oid" value="{{$inv->o_id}}">
+                                  <td>
+                                    @if($inv->balance == 0)
+                                      <button class="btn btn-primary" disabled>Pay</button>
+                                    @else
+                                      <button class="btn btn-primary">Pay</button>
+                                    @endif 
+                                  </td>
+                                {!! Form::close() !!} 
                               </tr>
                               @endforeach
                               {{ $invoice->links() }}

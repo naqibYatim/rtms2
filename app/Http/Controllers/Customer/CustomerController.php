@@ -125,7 +125,7 @@ class CustomerController extends Controller
     // method to view order list page for customer based on customer id
     public function customerOrderList()
     {
-        // get the user id
+        // get the user id 
         $user_id = auth()->user()->u_id;
         $user = User::find($user_id);
         // get order id with status draft

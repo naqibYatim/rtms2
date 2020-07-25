@@ -205,6 +205,10 @@ Route::get('customer/addorder', 'Customer\OrderController@OrderForm')->name('add
 
 // customer payment gateway page
 Route::post('customer/viewinvoice','Customer\BillplzController@payOrder')->name('customer.payorder')->middleware('customer');
+// webhook page
+Route::post('customer/bpwebhook','Customer\BillplzController@bpWebhook')->name('customer.bpwebhook')->middleware('customer');
+// redirect page
+Route::get('customer/bpredirect','Customer\BillplzController@bpRedirect')->name('customer.bpredirect')->middleware('customer');
 
 /////////////////////////////////////////////////////////////////REGISTRATION PAGE///////////////////////////////////////////////////
 //register agent (by link)
