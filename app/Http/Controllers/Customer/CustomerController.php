@@ -21,6 +21,7 @@ use App\Unit;
 use App\User;
 use App\Price;
 use App\Invoice;
+use App\Receipt;
 use App\InvoicePermanent;
 use App\SystemSetting;
 use App\BankDetail;
@@ -194,14 +195,15 @@ class CustomerController extends Controller
     {
         $user_id = auth()->user()->u_id;
         
+        $invs = Invoice::all();
         $invoice = DB::table('invoice')
                     ->leftJoin('orders', 'invoice.o_id', '=', 'orders.o_id')
                     ->leftJoin('user', 'orders.u_id_customer', '=', 'user.u_id')
-                ->where('orders.active','=','1')
-                ->where('orders.u_id_customer','=',$user_id)
+                    ->where('orders.active','=','1')
+                    ->where('orders.u_id_customer','=',$user_id)
                     ->paginate(30);
         
-        return view('customer/invoice', compact('invoice'));
+        return view('customer/invoice', compact('invoice', 'invs'));
     }
     // method to view or print invoice details
     public function viewInvoice(Request $request){
@@ -240,6 +242,7 @@ class CustomerController extends Controller
     {
         $user_id = auth()->user()->u_id;
         
+        $rcp = Receipt::all();
         $receipts = DB::table('receipt')
                 ->leftJoin('orders','receipt.o_id','=','orders.o_id')
                 ->leftJoin('user','orders.u_id_customer','=','user.u_id')
@@ -247,7 +250,7 @@ class CustomerController extends Controller
                 ->where('orders.u_id_customer','=',$user_id)
                 ->paginate(30);
         $user = User::all();
-        return view('customer/receipt',compact('receipts','user'));
+        return view('customer/receipt',compact('receipts','user','rcp'));
         // return view('customer/receipt');
     }
     // method for customer view receipt details

@@ -115,9 +115,9 @@ form, form updatenote { display: inline; }
                                               <td>{{$unit->un_quantity}}</td>
                                               <td>{{$unit->sewed}}</td>
                                               <td>
-                                                  @if($units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->where('un_status','5')->count()>0)
+                                                  @if($unit->un_status == 5)
                                                   x
-                                                  @elseif($units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->pluck('sewed')->first() < $units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->pluck('un_quantity')->first())
+                                                  @elseif($unit->sewed < $unit->un_quantity)
                                                   <button 
                                                         class="btn btn-primary upd" data-toggle="modal" data-target="#updateModal" data-uid="{{Auth::id()}}" data-name="{{$unit->name}}" data-size="{{$unit->size}}" data-sewed="{{$unit->sewed}}"
                                                         data-oid="{{$unit->o_id}}" data-unid="{{$unit->un_id}}" data-refnum="{{$order->ref_num}}"  data-maxquan="{{$unit->un_quantity}}" data-category="Size">Update
@@ -127,26 +127,26 @@ form, form updatenote { display: inline; }
                                                   @endif
                                               </td>
                                               <td>
-                                                  @if($units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->where('un_status','3')->count()>0)
+                                                  @if($unit->un_status==3)
                                                   <input type="checkbox" name="jobdone" value="" disabled="">                                                  
-                                                  @elseif($units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->where('un_status','2')->count()>0)
+                                                  @elseif($unit->un_status==2)
                                                   <button 
                                                         class="btn btn-default reprint" data-toggle="modal" data-target="#modal" data-refnum="{{$order->ref_num}}" data-name="{{$unit->name}}" data-size="{{$unit->size}}"
                                                         data-oid="{{$unit->o_id}}" data-unid="{{$unit->un_id}}" data-category="Size" data-maxquan="{{$unit->un_quantity}}">Request
                                                   </button>
-                                                  @elseif($units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->where('un_status','4')->count()>0)
+                                                  @elseif($unit->un_status==4)
                                                   <input type="checkbox" name="jobdone" value="" disabled="">
-                                                  @elseif($units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->where('un_status','5')->count()>0)
+                                                  @elseif($unit->un_status==5)
                                                   Requested 
                                                   @endif
                                               </td>
                                               <td>{{$unit->delivered}}</td>
                                               <td>
-                                                  @if($units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->pluck('un_quantity')->first() == $units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->pluck('delivered')->first())
+                                                  @if($unit->un_quantity == $unit->delivered)
                                                   <input type="checkbox" name="jobdone" value="" checked="" disabled="">
-                                                  @elseif($units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->pluck('sewed')->first() == $units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->pluck('delivered')->first())
+                                                  @elseif($unit->sewed == $unit->delivered)
                                                   x
-                                                  @elseif($units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->pluck('delivered')->first() < $units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->pluck('un_quantity')->first())
+                                                  @elseif($unit->delivered < $unit->un_quantity)
                                                   <button 
                                                         class="btn btn-primary deliver" data-toggle="modal" data-target="#deliveryModal" data-uid="{{Auth::id()}}" data-name="{{$unit->name}}" data-size="{{$unit->size}}" data-sewed="{{$unit->delivered}}"
                                                         data-oid="{{$unit->o_id}}" data-unid="{{$unit->un_id}}" data-refnum="{{$order->ref_num}}"  data-maxquan="{{$unit->un_quantity}}" data-category="Size">Update
@@ -187,9 +187,9 @@ form, form updatenote { display: inline; }
                                               <td>{{$unit->un_quantity}}</td>
                                               <td>{{$unit->sewed}}</td>
                                               <td>
-                                                  @if($units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->where('un_status','5')->count()>0)
+                                                  @if($unit->un_status == 5)
                                                   x
-                                                  @elseif($units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->pluck('sewed')->first() < $units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->pluck('un_quantity')->first())
+                                                  @elseif($unit->sewed < $unit->un_quantity)
                                                   <button 
                                                         class="btn btn-primary upd" data-toggle="modal" data-target="#updateModal" data-uid="{{Auth::id()}}" data-name="{{$unit->name}}" data-size="{{$unit->size}}" data-sewed="{{$unit->sewed}}"
                                                         data-oid="{{$unit->o_id}}" data-unid="{{$unit->un_id}}" data-refnum="{{$order->ref_num}}"  data-maxquan="{{$unit->un_quantity}}" data-category="Nameset">Update
@@ -199,26 +199,26 @@ form, form updatenote { display: inline; }
                                                   @endif
                                               </td>
                                               <td>
-                                                  @if($units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->where('un_status','3')->count()>0)
+                                                  @if($unit->un_status==3)
                                                   <input type="checkbox" name="jobdone" value="" disabled="">                                                  
-                                                  @elseif($units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->where('un_status','2')->count()>0)
+                                                  @elseif($unit->un_status==2)
                                                   <button 
                                                         class="btn btn-default reprint" data-toggle="modal" data-target="#modal" data-refnum="{{$order->ref_num}}" data-name="{{$unit->name}}" data-size="{{$unit->size}}"
                                                         data-oid="{{$unit->o_id}}" data-unid="{{$unit->un_id}}" data-category="Nameset" data-maxquan="{{$unit->un_quantity}}">Request
                                                   </button>
-                                                  @elseif($units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->where('un_status','4')->count()>0)
+                                                  @elseif($unit->un_status==4)
                                                   <input type="checkbox" name="jobdone" value="" disabled="">
-                                                  @elseif($units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->where('un_status','5')->count()>0)
+                                                  @elseif($unit->un_status==5)
                                                   Requested 
                                                   @endif
                                               </td>
                                               <td>{{$unit->delivered}}</td>
                                               <td>
-                                                  @if($units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->pluck('un_quantity')->first() == $units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->pluck('delivered')->first())
+                                                  @if($unit->un_quantity == $unit->delivered)
                                                   <input type="checkbox" name="jobdone" value="" checked="" disabled="">
-                                                  @elseif($units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->pluck('sewed')->first() == $units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->pluck('delivered')->first())
+                                                  @elseif($unit->sewed == $unit->delivered)
                                                   x
-                                                  @elseif($units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->pluck('delivered')->first() < $units->where('o_id',$spec->o_id)->where('un_id',$unit->un_id)->pluck('un_quantity')->first())
+                                                  @elseif($unit->delivered < $unit->un_quantity)
                                                   <button 
                                                         class="btn btn-primary deliver" data-toggle="modal" data-target="#deliveryModal" data-uid="{{Auth::id()}}" data-name="{{$unit->name}}" data-size="{{$unit->size}}" data-sewed="{{$unit->delivered}}"
                                                         data-oid="{{$unit->o_id}}" data-unid="{{$unit->un_id}}" data-refnum="{{$order->ref_num}}"  data-maxquan="{{$unit->un_quantity}}" data-category="Nameset">Update
@@ -246,7 +246,14 @@ form, form updatenote { display: inline; }
                             <form method="post" action="{{route('update.sew')}}">@csrf
                              <input type="hidden" name="process" value="complete">
                              <input type="hidden" name="o_id" value="{{$order->o_id}}">
-                             <center><button type="submit" class="btn btn-primary edit" >Complete Order</button></center>                                         
+                             <center><button type="submit" class="btn btn-primary edit" >Complete Order</button></center>
+                            </form>
+                            @else
+                            <form method="post" action="{{route('update.sew')}}">@csrf
+                             <input type="hidden" name="process" value="allcomplete">
+                             <input type="hidden" name="o_id" value="{{$order->o_id}}">
+                             <center><button type="submit" class="btn btn-primary edit" >Complete All</button></center>
+                            </form>                           
                             @endif                                              
                                 </div>                                
                             </div>

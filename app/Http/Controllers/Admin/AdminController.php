@@ -23,6 +23,7 @@ use App\BlockDay;
 use App\BlockDate;
 use App\Stock;
 use App\Invoice;
+use App\Receipt;
 use Carbon\Carbon;
 use DB;
 
@@ -414,7 +415,7 @@ class AdminController extends Controller
         
         $years = [];
         for ($year=2017; $year <= $ye; $year++) $years[] = $year;
-        
+        $invs = Invoice::all();
         $invoice = DB::table('invoice')
                     ->leftJoin('orders', 'invoice.o_id', '=', 'orders.o_id')
                     ->leftJoin('user', 'orders.u_id_customer', '=', 'user.u_id')
@@ -422,7 +423,7 @@ class AdminController extends Controller
                     ->paginate(30);        
         
         
-        return view('admin/invoice_list',compact('invoice','y','m','years'));
+        return view('admin/invoice_list',compact('invoice','y','m','years', 'invs'));
     }
     
     public function invoiceFilter(Request $request) 

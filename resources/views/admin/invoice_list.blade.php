@@ -77,7 +77,12 @@ form, form formbutton { display: inline; }
                                 <td>{{$inv->delivery_type}}</td>
                                 <td>{{$inv->quantity_total}}</td>
                                 <td>{{$inv->total_price}}</td>
-                                <td>{{date('d/m/Y', strtotime($inv->created_at))}}</td>
+                                <td>
+                                  @php
+                                      $invdate = $invs->where('i_id', $inv->i_id)->pluck('created_at');
+                                  @endphp
+                                  {{date('d/m/Y', strtotime($invdate[0]))}}
+                                </td>
 <!--                                <td><button class="btn btn-default addCharges" data-toggle="modal" data-target="#Modal" data-oid="{{$inv->o_id}}">Add</button></td>-->
 <!--                                @if($inv->delivery_type=="Delivery")
                                 <td><button class="btn btn-default addCharges" data-toggle="modal" data-target="#Modal" data-oid="{{$inv->o_id}}">Add</button></td>

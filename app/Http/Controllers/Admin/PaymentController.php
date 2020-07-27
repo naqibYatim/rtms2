@@ -101,7 +101,7 @@ class PaymentController extends Controller
         
         $years = [];
         for ($year=2017; $year <= $y; $year++) $years[] = $year;
-        
+        $rcp = Receipt::all();
         $receipts = DB::table('receipt')
                 ->leftJoin('orders','receipt.o_id','=','orders.o_id')
                 ->leftJoin('user','orders.u_id_customer','=','user.u_id')
@@ -113,7 +113,7 @@ class PaymentController extends Controller
         $invoice = Invoice::all();
         $user = User::all();
         
-        return view('admin/receipt_list',compact('receipts','user','years','m','y','invoice'));
+        return view('admin/receipt_list',compact('receipts','user','years','m','y','invoice','rcp'));
     }
     
     public function filterReceiptList(Request $request)

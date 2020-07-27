@@ -524,7 +524,30 @@ class JobListController extends Controller
            }
            
            return response()->json(['success'=>'Order Updated']);           
-        }           
+        }
+        if($data['process']=="allcomplete")
+        {
+           $oid = $data['o_id'];
+           $units = DB::table('unit')
+                     ->where('o_id','=',$oid)
+                     ->get();
+           
+          // dd($units);
+           foreach ($units as $unit) {
+               DB::table('unit')
+                 ->where('un_id', '=', $unit->un_id)
+                 ->update(array(
+                     'sewed' => $unit->un_quantity,
+                     'delivered' => $unit->un_quantity,
+                     'un_status'=>'4',
+                     'updated_at'=>DB::raw('now()')));
+           }
+           DB::table('orders')
+                 ->where('o_id', '=', $data['o_id'])
+                 ->update(array('o_status'=>'9','updated_at' => DB::raw('now()')));
+           
+           return Redirect::route('job_list');           
+        }
         
     }
     

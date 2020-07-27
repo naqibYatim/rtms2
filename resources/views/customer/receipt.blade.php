@@ -37,7 +37,12 @@ text-align: center;
                                 <td>{{$receipt->file_name}}</td>
                                 <td>{{$receipt->quantity_total}}</td>
                                 <td>{{$receipt->total_paid}}</td>
-                                <td>{{date('d/m/Y', strtotime($receipt->created_at))}}</td>
+                                <td>
+                                  @php
+                                      $rcpdate = $rcp->where('re_id', $receipt->re_id)->pluck('created_at');
+                                  @endphp
+                                  {{date('d/m/Y', strtotime($rcpdate[0]))}}  
+                                </td>
                                 <td><a href="{{route('general.receipt',$receipt->re_id)}}"><button class="btn btn-primary">View</button></td>
                               </tr>
                          
