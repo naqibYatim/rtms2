@@ -22,7 +22,7 @@ class BillplzController extends Controller
         $price = $request->input('price')*100;
 
         // Creating Client
-        $billplz = Client::make('a0cc4de0-ffd6-4435-86da-d8faf4de9919', 'S-m0uAna8sTOgYpscyO3hZ7g');
+        $billplz = Client::make('api-key', 'xsignature-key');
         
         // Using Sandbox
         $billplz->useSandbox();
@@ -101,7 +101,7 @@ class BillplzController extends Controller
 
     public function bpRedirect(){
 
-        $billplz = Client::make('a0cc4de0-ffd6-4435-86da-d8faf4de9919', 'S-m0uAna8sTOgYpscyO3hZ7g');
+        $billplz = Client::make('api-key', 'xsignature-key');
         $bill = $billplz->bill();
         $data = $bill->redirect($_GET);     
         // var_dump($data);
